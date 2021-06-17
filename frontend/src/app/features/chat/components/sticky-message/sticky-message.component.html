@@ -1,0 +1,9 @@
+<div class="container" (click)="nextMessage()">
+	<app-tracker [nItems]="messages.length" [activeItem]="activeIndex"></app-tracker>
+	<div class="message">
+		<span class="tui-text_body-m sticky-title">Sticky messages</span>
+		<!--<span [@animateText]="animState" (@animateText.done)="onAnimationDone()"
+			class="tui-text_body-s message-content">{{messages[activeIndex].content}}</span>-->
+			<div [innerHtml]="messages[activeIndex].content | markdown: 'partial'" class="tui-text_body-s message-content"></div>
+	</div>
+</div>

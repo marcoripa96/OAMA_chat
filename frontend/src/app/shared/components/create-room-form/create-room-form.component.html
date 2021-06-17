@@ -1,0 +1,61 @@
+<tui-island class="create-panel" *ngIf="{
+		validPassword: validPassword$ | async,
+		validForm: formStatus$ | async
+	} as data">
+	<div class="title tui-island__title">
+		<tui-svg class="tui-space_right-2" [src]="data.validPassword ? 'tuiIconLockLarge' : 'tuiIconLockOpenLarge'"
+			[tuiHint]="data.validPassword ? tooltipPrivate : tooltipPublic" tuiHintDirection="top-left">
+		</tui-svg>
+		<span>Create a new room</span>
+	</div>
+	<form [formGroup]="createForm" (ngSubmit)="submitForm()">
+		<tui-input id="room-name-input" class="tui-space_bottom-3" formControlName="name">
+			Room name
+		</tui-input>
+
+		<tui-input-password class="tui-space_bottom-3" [tuiTextfieldCustomContent]="data.validPassword ? success : ''"
+			formControlName="password">
+			Room password
+		</tui-input-password>
+
+		<tui-text-area formControlName="description" [tuiTextfieldMaxLength]="90">Room description</tui-text-area>
+
+		<div id="persistent-container">
+			<div>
+				<tui-svg src="tuiIconBookmarkLarge"></tui-svg>
+			</div>
+			<div id="persistent-label">
+				<span>Persistent Room</span>
+			</div>
+			<div id="persistent-toggle">
+				<tui-toggle class="tui-space_bottom-3" size="l" formControlName="persistent" [showIcons]="true">
+				</tui-toggle>
+			</div>
+		</div>
+
+		<tui-notification @enterAnimation [@shakeAnimation]="animateShake" (@shakeAnimation.done)="onShakeDone()"
+			*ngIf="!data.validForm" [status]="createForm.touched && this.createForm.invalid ? 'error' : 'info'"
+			[hasIcon]="true">
+			Password has to be at least 6 characters long
+		</tui-notification>
+
+
+		<button #submitButton class="create-button" [showLoader]="loading$ | async" tuiButton appearance="secondary">
+			Create room
+		</button>
+	</form>
+</tui-island>
+
+<ng-template #success>
+	<tui-svg class="success tui-space_left-3" src="tuiIconCheckLarge"></tui-svg>
+</ng-template>
+
+<ng-template #tooltipPublic>
+	<div>A <b>public</b> room can be accessed by anyone and can be found in the public lobby.</div>
+	<div>Set a password to make it private.</div>
+</ng-template>
+
+<ng-template #tooltipPrivate>
+	<div>A password will be required to join a <b>private</b> room and it will not be listed in the public lobby.</div>
+	<div>Remove the password to make it public.</div>
+</ng-template>

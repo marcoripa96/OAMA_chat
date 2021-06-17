@@ -1,0 +1,96 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 1256px;
+	padding: 20px;
+	box-sizing: border-box;
+
+	.chat-icon {
+		margin-top: 70px;
+		margin-bottom: 70px;
+		margin-left: auto;
+		margin-right: auto;
+		&::ng-deep {
+			svg {
+				transform: scale(3);
+			}
+		}
+		color: var(--tui-primary)
+	}
+
+	.title {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 120px;
+		text-align: center;
+	}
+
+	.subtitle {
+		margin-top: 40px;
+		color: var(--tui-text-02);
+	}
+	
+	.no-rooms {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.search-form {
+		margin-bottom: 100px;
+		width: 100%;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.rooms-list {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat( auto-fit, minmax(300px, 1fr));
+		gap: 20px;
+
+		.room-action {
+			max-width: 619px;
+			.action-content {
+				display: flex;
+				flex-direction: column;
+
+				.action-title {
+					font-weight: 600;
+				}
+
+				.action-description {
+					word-break: break-all;
+				}
+			}
+		}
+	}
+
+	.show-more {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-top: 80px;
+
+		app-divider {
+			max-width: 40%;
+		}
+
+		button {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+	
+}
+

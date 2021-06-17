@@ -1,0 +1,9 @@
+/package-lock.json
+/package.json
+node_modules
+/data
+.env
+/mongo-init.js
+.nyc_output
+.vscode/*
+!.vscode/settings.json

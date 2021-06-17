@@ -1,0 +1,34 @@
+<!-- Header -->
+<div class="header">
+	<span class="tui-text_body-l">
+		Settings
+	</span>
+	<tui-svg id="close-arrow" (click)="closeSidebar()" src="tuiIconArrowRightLarge"></tui-svg>
+</div>
+
+<!-- Content -->
+<tui-accordion class="content" [rounded]="false">
+	<!-- Theme accordion item THEME -->
+	<tui-accordion-item id="accordion-theme" [(open)]="accordionItems[0].value" size="s">
+		<tui-svg class="icon-setting tui-space_right-2" [ngClass]="accordionItems[0].value ? 'focused' : ''" src="tuiIconEdit"></tui-svg> Theme
+		<ng-template tuiAccordionItemContent>
+			<div [formGroup]="themeForm" id="radio-group-theme">
+				<tui-radio-labeled id="default-theme-radio" class="tui-space_bottom-3" formControlName="theme"
+								   item="default">
+					<div>Default</div>
+					<div class="description">Default theme, white and blue</div>
+				</tui-radio-labeled>
+				<tui-radio-labeled id="dark-theme-radio" class="tui-space_bottom-3" formControlName="theme"
+								   item="dark">
+					<div>Dark</div>
+					<div class="description">When there is no sun outside</div>
+				</tui-radio-labeled>
+				<tui-radio-labeled id="adaptive-theme-radio" formControlName="theme"
+								   item="adaptive">
+					<div>Adaptive</div>
+					<div class="description">It turns dark in the evening</div>
+				</tui-radio-labeled>
+			</div>
+		</ng-template>
+	</tui-accordion-item>
+</tui-accordion>

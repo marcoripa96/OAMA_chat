@@ -1,0 +1,79 @@
+@import "~@taiga-ui/core/styles/taiga-ui-local";
+
+:host {
+	display: block;
+	position: sticky;
+	top: 0;
+	width: 100%;
+	z-index: 10;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+	height: 60px;
+	width: 100%;
+	padding: 0px 20px;
+	box-sizing: border-box;
+	background-color: var(--tui-base-01);
+	transition: all 200ms ease-out;
+
+	&.scrolled {
+		@include shadow(1);
+	}
+
+	.logo {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		color: inherit;
+		text-decoration: none;
+
+		transition: all 150ms ease-out;
+
+		tui-svg {
+			transform: scale(0.9);
+			margin-right: -4px;
+		}
+		.logo-title {
+			font: var(--tui-font-heading-5)
+		}
+
+		&:hover {
+			color: var(--tui-link);
+		}
+	}
+
+	.browse-btn {
+		margin-left: auto;
+	}
+
+	.btn-theme {
+		&::ng-deep {
+			tui-svg {
+				transform: scale(0.7);
+			}
+		}
+	}
+
+	app-divider {
+		height: 50%;
+	}
+}
+.form {
+	padding: 10px;
+	.description {
+		margin-top: 5px;
+		font: var(--tui-font-text-xs);
+		color: var(--tui-text-03);
+	}
+}
+
+
+@media only screen and (max-width: 1225px) {
+	.container {
+		box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	}
+}

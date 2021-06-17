@@ -1,0 +1,85 @@
+@import "~@taiga-ui/core/styles/taiga-ui-local";
+
+:host {
+  display: block;
+  position: sticky;
+  flex-shrink: 0;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  transition: background-color 200ms ease-out;
+  cursor: pointer;
+
+  border-bottom: 1px solid var(--tui-base-03);
+  &:hover {
+    background-color: var(--tui-base-02);
+  }
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  app-tracker,
+  .message {
+    height: 100%;
+  }
+
+  .message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    min-width: 0;
+
+    .sticky-title {
+      font-weight: 600;
+    }
+
+    .message-content {
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+	  &::ng-deep {
+		// headers
+		div[class^="tui-text_h"] {
+			border-bottom: 1px solid var(--tui-base-03);
+			padding-bottom: 8px;
+			margin: 10px 0;
+			min-width: 150px;
+		}
+		// inline code
+		.code-markdown-inline {
+			background-color: var(--tui-base-03);
+			color: var(--tui-text-02);
+			box-shadow: inset 0 -2px var(--tui-secondary);
+			padding: 6px 8px;
+			font-size: 14px;
+			border-radius: 8px;
+		}
+		// blockquote
+		.quote-markdown {
+			margin: 0;
+			padding-left: 16px;
+			border-left: 3px solid var(--tui-base-03);
+		}
+		.success {
+			background-color: var(--tui-success-bg);
+			box-shadow: inset 0 -2px var(--tui-success-bg-hover);
+		}
+		.warn {
+			background-color: var(--tui-warning-bg);
+			box-shadow: inset 0 -2px var(--tui-warning-bg-hover);
+		}
+		.error {
+			background-color: var(--tui-error-bg);
+			box-shadow: inset 0 -2px var(--tui-error-bg-hover);
+		}
+	}
+    }
+  }
+}

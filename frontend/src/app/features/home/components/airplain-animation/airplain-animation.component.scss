@@ -1,0 +1,14 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.path {
+	stroke: var(--tui-neutral-bg-hover);
+}
+
+.bubble {
+	transition: all 250ms ease-out;
+}

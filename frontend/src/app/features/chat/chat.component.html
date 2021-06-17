@@ -1,0 +1,65 @@
+<!-- Chat component -->
+<ng-container *ngIf="{
+	activeUsers: activeUsers$ | async
+} as data">
+	<ng-container *ngIf="connected$ | async; else loading">
+		<div *ngIf="roomConfig" class="chat">
+
+			<!-- Top bar -->
+			<div class="top-bar">
+				<div class="room-name">
+					<div class="name">{{roomConfig.name}}</div>
+					<app-active-users-list [users]="data.activeUsers" 
+						[currentUser]="roomConfig.username" (kick)="kickUser($event)">
+					</app-active-users-list>
+				</div>
+				<tui-svg (click)="toggleSidebar(searchRef)" class="top-action search" src="tuiIconSearch"></tui-svg>
+				<!-- 			<tui-svg (click)="toggleSidebar(settingsRef)" class="top-action settings" src="tuiIconSettings">
+			</tui-svg> -->
+			</div>
+			<!-- Sticky Messages -->
+			<app-sticky-message id="sticky-messages" *ngIf="this.roomConfig.room.stickyMessages.length>0" [messages]="this.roomConfig.room.stickyMessages" (next)="scrollToMessage($event)"></app-sticky-message>
+			<!-- Content -->
+			<tui-scrollbar appScrollBottom [scrollableContainer]="scrollableContainer" [hidden]="hiddenScrollbar" (newMessage)="showNewMessage()">
+				<div #scrollableContainer class="messages" (mouseenter)="hiddenScrollbar = false"
+					(mouseleave)="hiddenScrollbar = true">
+					<!-- Chat messages -->
+					<ng-container *ngIf="messages$ | async as messages">
+						<ng-container *ngFor="let message of messages; let i = index; trackBy: identify">
+							<tui-badge class="badge-date" *ngIf="messages[i-1] | tuiMapper: isNewDay : messages[i]"  
+								status="custom" [value]="(messages[i].sentDate | tuiMapper: toDate) | toFormattedDate">
+								<tui-svg src="tuiIconCalendar"></tui-svg>
+							</tui-badge>
+							<app-message #messagesRef 
+								[message]="message"
+								[type]="roomConfig.username === message.username ? 'sent' : 'received'"
+								[showAvatar]="roomConfig.username !== message.username && (i === 0 ||  message.username !== messages[i-1].username)"
+								[showUsername]="i === 0 ||  message.username !== messages[i-1].username"
+								preview="static" (stickyMessage)="newSticky($event)" [item]="getItem(message)"
+								>
+							</app-message>
+						</ng-container>
+					</ng-container>
+				</div>
+			</tui-scrollbar>
+			<!-- Top bar -->
+			<app-bottom-bar [roomConfig]="roomConfig" (send)="sendMessage($event)">
+			</app-bottom-bar>
+			<!-- SIDEBAR -->
+			<app-sidebar></app-sidebar>
+			<!-- Sidebar settings -->
+			<ng-template #settingsRef>
+				<app-settings></app-settings>
+			</ng-template>
+
+			<!-- Sidebar search -->
+			<ng-template #searchRef>
+				<app-search></app-search>
+			</ng-template>
+		</div>
+	</ng-container>
+
+	<!-- Waiting to connect -->
+	<ng-template #loading>
+		Loading...
+	</ng-template>

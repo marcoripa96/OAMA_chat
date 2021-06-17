@@ -1,0 +1,31 @@
+<tui-svg class="chat-icon" src="tuiIconCommentLarge"></tui-svg>
+
+<ng-container *ngIf="roomConfig">
+	<div class="page-title tui-text_h3">
+		Welcome to {{roomConfig.name | tuiMapper: toUpper}}!
+	</div>
+</ng-container>
+
+<tui-island class="username-panel">
+	<div class="title tui-island__title">
+		<tui-svg *ngIf="roomConfig.room.private" class="tui-space_right-2" src="tuiIconLockLarge"></tui-svg>
+		<span>Enter chatroom</span>
+	</div>
+	<form [formGroup]="userForm" (ngSubmit)="enterRoom()">
+		<tui-input id="username-input" class="tui-space_bottom-3" formControlName="username"
+			tuiTextfieldAutocomplete="off" spellcheck="false" (focusedChange)="onFocusChange($event)">
+			What's your username?
+		</tui-input>
+		<tui-input-password class="tui-space_bottom-3" *ngIf="roomConfig.room.private" formControlName="password">
+			Room password
+		</tui-input-password>
+		<tui-notification @enterAnimation [@shakeAnimation]="animateShake" (@shakeAnimation.done)="onShakeDone()" *ngIf="authError" 
+			status="error" 
+			[hasIcon]="true">
+			Invalid password
+		</tui-notification>
+		<button class="enter-button" [showLoader]="loading$ | async" tuiButton appearance="secondary">
+			Enter room
+		</button>
+	</form>
+</tui-island>

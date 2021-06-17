@@ -1,0 +1,24 @@
+version: "3"
+services:
+
+  mongo:
+    image: mongo
+    restart: $RESTART
+    volumes:
+      - ./data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
+      MONGO_INITDB_DATABASE: oama
+    ports:
+      - $MONGO_LISTEN_ADDRESS:27017
+
+  mongo-express:
+    image: mongo-express
+    restart: $RESTART
+    ports:
+      - $MONGO_EXPRESS_LISTEN_ADDRESS:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: $MONGO_INITDB_ROOT_PASSWORD

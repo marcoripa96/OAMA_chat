@@ -1,0 +1,3 @@
+<div *ngFor="let item of nItems | toArray; let i = index" [style.height.px]="size" class="bar"
+  [ngClass]="{'active': i === activeItem}">
+</div>

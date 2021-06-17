@@ -1,0 +1,258 @@
+:host {
+	display: flex;
+	flex-direction: column;
+}
+
+.header-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 400px;
+
+	.header-wrapper {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		max-width: 1256px;
+
+		.header-img {
+			position: absolute;
+			bottom: -300px;
+			right: 0px;
+			width: 100%;
+			z-index: -1;
+
+			&::ng-deep {
+				svg {
+					display: block;
+					max-width: 600px;
+					margin-left: auto;
+					.changeable {
+						fill: currentColor;
+						transition: all 250ms ease-out;
+					}
+				}
+			}
+		}
+
+		.header-headline {
+			max-width: 500px;
+			padding: 20px;
+			margin-top: 40px;
+			margin-bottom: 40px;
+
+			.chatting-word {
+				transition: color 250ms ease-out;
+			}
+
+			.subtitle {
+				color: var(--tui-text-02);
+				margin-top: 10px;
+			}
+		}
+
+		.room-form {
+			display: flex;
+			flex-direction: column;
+			padding: 0px 20px;
+			max-width: 500px;
+
+			.input-room {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				tui-input {
+					flex-grow: 1;
+					margin-right: 10px;
+				}
+			}
+
+			app-airplain-animation {
+				margin-top: 80px;
+			}
+		}
+	}
+}
+
+.subheader-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-top: 350px;
+
+	.subheader {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 100%;
+		max-width: 1256px;
+
+		color: var(--tui-text-02);
+	}
+}
+
+.actions-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	margin-top: 500px;
+
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		max-width: 1256px;
+
+		.section-title {
+			margin-bottom: 20px;
+		}
+
+		.section-subtitle {
+			color: var(--tui-text-02);
+			margin-bottom: 60px;
+			padding: 0px 20px;
+			text-align: center;
+		}
+
+		.actions {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 20px;
+			width: 100%;
+			padding: 0 20px;
+			box-sizing: border-box;
+	
+			.action {
+				width: calc(33% - 40px);
+				min-width: 357px;
+				height: 200px;
+				flex: auto;
+				box-sizing: border-box;
+				a {
+					height: 100%;
+					box-sizing: border-box;
+				}
+	
+				.link {
+					margin-top: auto;
+				}
+	
+				.tui-island__content {
+					display: flex;
+					flex-direction: column;
+					height: 100%;
+				}
+			}
+		}
+	}
+}
+
+.chat-slider {
+	width: 100%;
+	margin-top: 150px;
+	background-image: linear-gradient(to bottom, var(--tui-base-01), var(--tui-base-02));
+}
+
+footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+
+	.footer-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		max-width: 1256px;
+		width: 100%;
+		padding-top: 100px; 
+
+		tui-svg {
+			margin-bottom: 40px;
+			&::ng-deep {
+				svg {
+					transform: scale(3);
+				}
+			}
+			color: var(--tui-primary)
+		}
+
+		.author {
+			font-style: italic;
+		}
+
+		.footer-title {
+			text-align: center;
+		}
+
+		.subtitle {
+			position: relative;
+			max-width: 600px;
+			padding: 0 30px;
+			 box-sizing: border-box;
+			text-align: center;
+			color: var(--tui-text-02);
+
+			.quotes {
+				position: absolute;
+				left: 0px;
+				top: 10px;
+				font-size: 72px;
+			}
+		}
+
+		.copyright {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			color: var(--tui-text-02);
+			gap: 10px;
+			padding: 20px;
+		}
+	}
+}
+
+@media screen and (max-width: 1180px) {
+	.header-img {
+		&::ng-deep {
+			svg {
+				max-width: 500px !important;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 990px) {
+	.header-img {
+		bottom: -350px !important;
+		&::ng-deep {
+			svg {
+				max-width: 400px !important;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 905px) {
+	.header-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		form {
+			width: 100%;
+		}
+	}
+
+	.header-img {
+		display: none !important;
+	}
+}

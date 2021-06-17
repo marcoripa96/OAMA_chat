@@ -1,0 +1,185 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 65px;
+	padding: 10px;
+	border-bottom: 1px solid var(--oama-base-03);
+	box-sizing: border-box;
+
+	> {
+		tui-input {
+			flex-grow: 1;
+			margin-right: 10px;
+		}
+	}
+
+	tui-svg {
+		margin-left: auto;
+		color: var(--tui-text-03);
+		transition: all 150ms ease-out;
+		cursor: pointer;
+
+		&:hover {
+			color: var(--tui-primary);
+			transform: translateX(5px);
+		}
+	}
+}
+
+.tab-icon {
+	color: var(--tui-text-03);
+}
+
+.content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	overflow: auto;
+
+	&::-webkit-scrollbar {
+		height: 4px;
+		width: 4px;
+		background: var(--oama-base-02);
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: var(--oama-base-03);
+	}
+
+	.default-message {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: center;
+		justify-content: center;
+		color: var(--tui-text-03);
+
+		tui-svg {
+			transform: scale(2);
+			margin-bottom: 10px;
+		}
+	}
+
+	.no-messages-found {
+		color: var(--tui-text-03);
+		padding: 10px;
+	}
+
+	.message {
+		padding: 10px;
+		border-bottom: 1px solid var(--tui-base-02);
+		background-color: var(--tui-base-01);
+		transition: all 150ms ease-out;
+		cursor: pointer;
+
+		.username {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+		.message-content {
+			display: flex;
+			flex-direction: column;
+
+			.message-text {
+				text-overflow: ellipsis;
+
+				overflow: hidden;
+				white-space: nowrap;
+			}
+
+			.link-preview {
+				display: flex;
+				flex-direction: row;
+				align-items: flex-start;
+				.link-description {
+					.ngx-ellipsis-inner {
+						max-height: 30px;
+					}
+				}
+				img {
+					width: 40px;
+					border-radius: 6px;
+				}
+				a {
+					font: var(--tui-font-text-xs) !important;
+				}
+			}
+			&::ng-deep {
+				// headers
+				div[class^="tui-text_h"] {
+					border-bottom: 1px solid var(--tui-base-03);
+					padding-bottom: 8px;
+					margin: 10px 0;
+					min-width: 150px;
+				}
+				// inline code
+				.code-markdown-inline {
+					background-color: var(--tui-base-02);
+					color: var(--tui-text-02);
+					box-shadow: inset 0 -2px var(--tui-secondary);
+					padding: 6px 8px;
+					font-size: 14px;
+					border-radius: 8px;
+				}
+				// blockquote
+				.quote-markdown {
+					margin: 0;
+					padding-left: 16px;
+					border-left: 3px solid var(--tui-base-03);
+				}
+				.success {
+					background-color: var(--tui-success-bg);
+					box-shadow: inset 0 -2px var(--tui-success-bg-hover);
+				}
+				.warn {
+					background-color: var(--tui-warning-bg);
+					box-shadow: inset 0 -2px var(--tui-warning-bg-hover);
+				}
+				.error {
+					background-color: var(--tui-error-bg);
+					box-shadow: inset 0 -2px var(--tui-error-bg-hover);
+				}
+			}
+		}
+
+		.spoiler-message {
+			display: flex;
+			flex-direction: column;
+
+			.spoiler-title {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				tui-svg {
+					color: var(--tui-text-03);
+				}
+			}
+
+			.skeleton {
+				width: 100%;
+				height: 7px;
+				background-color: var(--tui-base-03);
+				border-radius: 12px;
+				margin-top: 5px;
+			}
+		}
+
+		&:hover {
+			background-color: var(--tui-base-02);
+		}
+	}
+}

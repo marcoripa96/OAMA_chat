@@ -1,0 +1,61 @@
+:host {
+	display: flex;
+	flex-direction: row;
+	padding-top: 20px;
+}
+
+.sidebar {
+	width: 200px;
+	padding: 0px 20px;
+	display: flex;
+	flex-direction: column;
+	border-right: 1px solid var(--tui-neutral-bg);
+	
+	.release {
+		margin-top: 20px;
+	}
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	padding: 0px 60px;
+	box-sizing: border-box;
+	gap: 20px;
+
+	.version {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 10px;
+
+		.version-number{
+			color: #526ed3;
+			font-weight: 500;
+		}
+		.release-date {
+			font-weight: 500;
+		}
+		.icon-link {
+			color: var(--tui-text-03);
+		}
+	}
+
+	.section {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		.section-title {
+			font-weight: 500;			
+		}
+		.mr-title {
+			font-weight: 600;
+		}
+		.mr-link {
+			color: var(--tui-support-05);
+			&:hover {
+				color: var(--tui-support-06);
+			}
+		}
+	}
+}

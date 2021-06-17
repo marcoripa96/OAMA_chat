@@ -1,0 +1,23 @@
+:host {
+	display: block;
+
+	&.vertical {
+		width: 1px;
+		height: 100%;
+		padding: 0px 10px;
+	}
+
+	&.horizontal {
+		width: 100%;
+		height: 1px;
+		padding: 10px 0px;
+	}
+
+
+
+	.divider {
+		background-color: var(--tui-neutral-bg);
+		width: 100%;
+		height: 100%;
+	}	
+}

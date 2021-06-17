@@ -1,0 +1,20 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 10px;
+	gap: 2px;
+	box-sizing: border-box;
+  
+	.bar {
+	  width: 5px;
+	  border-radius: 3px;
+	  background-color: var(--tui-secondary-active);
+	  transition: background-color 150ms ease-out;
+  
+	  &.active {
+		background-color: var(--tui-link-hover);
+	  }
+	}
+  }
+  

@@ -1,0 +1,68 @@
+{
+	"root": true,
+	"ignorePatterns": [
+		"projects/**/*"
+	],
+	"overrides": [
+		{
+			"files": [
+				"*.ts"
+			],
+			"parserOptions": {
+				"project": [
+					"tsconfig.json",
+					"e2e/tsconfig.json"
+				],
+				"createDefaultProgram": true
+			},
+			"extends": [
+				"plugin:@angular-eslint/ng-cli-compat",
+				"plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+				"plugin:@angular-eslint/template/process-inline-templates"
+			],
+			"rules": {
+				"@angular-eslint/component-selector": [
+					"error",
+					{
+						"type": "element",
+						"prefix": "app",
+						"style": "kebab-case"
+					}
+				],
+				"@angular-eslint/directive-selector": [
+					"error",
+					{
+						"type": "attribute",
+						"prefix": "app",
+						"style": "camelCase"
+					}
+				],
+				"indent": [
+					"warn",
+					"tab"
+				],
+				"@typescript-eslint/type-annotation-spacing": "error",
+				"@typescript-eslint/quotes": "error",
+				"@typescript-eslint/semi": "error",
+				"@typescript-eslint/member-ordering": "off",
+				"no-trailing-spaces": "error",
+				"eol-last": "error",
+				"linebreak-style": [
+					"error",
+					"unix"
+				],
+				"no-underscore-dangle": "off",
+				"jsdoc/no-types": "off"
+			}
+		},
+		{
+			"files": [
+				"*.html"
+			],
+			"extends": [
+				"plugin:@angular-eslint/template/recommended"
+			],
+			"rules": {}
+		}
+	]
+}

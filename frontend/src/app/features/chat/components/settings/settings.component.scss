@@ -1,0 +1,57 @@
+.header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 65px;
+	padding: 10px;
+	border-bottom: 1px solid var(--oama-base-03);
+	box-sizing: border-box;
+
+	tui-svg {
+		margin-left: auto;
+		color: var(--tui-text-03);
+		transition: all 150ms ease-out;
+		cursor: pointer;
+		
+		&:hover {
+			color: var(--tui-primary);
+			transform: translateX(5px);
+		}
+	}
+}
+
+
+.content {
+	tui-accordion-item {
+		.icon-setting {
+			transition: color 150ms ease-out;
+			color: var(--tui-text-03);
+
+			&.focused {
+				color: var(--tui-primary);
+			}
+		}
+
+		&::ng-deep {
+			.wrapper {
+				&:after{
+					border: none;
+				}
+				
+			}
+		}
+
+		&:hover {
+			.icon-setting {
+				color: var(--tui-primary);
+			}
+		}
+			
+		.description {
+			margin-top: 5px;
+			font: var(--tui-font-text-xs);
+			color: var(--tui-text-03);
+		}
+		
+	}
+}

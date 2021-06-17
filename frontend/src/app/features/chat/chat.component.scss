@@ -1,0 +1,113 @@
+@import "~@taiga-ui/core/styles/taiga-ui-local";
+
+:host {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: calc(100vh - 60px);
+	padding: 20px;
+	
+	box-sizing: border-box;
+
+	.chat {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		max-width: 1024px;
+		height: 100%;
+		background-color: var(--tui-base-02);
+		border-radius: 12px;
+		overflow: hidden;
+		@include shadow(1);
+	
+		.top-bar {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			background-color: var(--oama-base-02);
+			border-bottom: 1px solid var(--oama-base-03);
+			padding: 10px;
+			box-sizing: border-box;
+	
+			.room-name {
+				display: flex;
+				flex-direction: column;
+				.name {
+					font: var(--tui-font-heading-6);
+					margin-right: 10px;
+				}
+			}
+
+			.top-action {
+				color: var(--tui-text-03);
+				transition: all 150ms ease-out;
+				cursor: pointer;
+				&:hover {
+					color: var(--tui-primary);
+				}
+			}
+	
+			.settings {
+				&:hover {
+					transform: rotate(60deg);
+				}
+			}
+
+			.search {
+				margin-left: auto;	
+				margin-right: 10px;			
+				&:hover {
+					transform: scale(1.1);
+				}
+			}
+		}
+		tui-scrollbar {
+			flex-grow: 1;
+	
+			.messages {
+				padding: 10px;
+				display: flex;
+				flex-direction: column;
+
+				tui-badge {
+					position: sticky;
+					top: 10px;
+					z-index: 1;
+					width: 150px;
+					margin-left: auto;
+					margin-right: auto;
+					background-color: var(--tui-base-03);
+					color: var(--tui-text-02);
+			
+					tui-svg {
+						color: var(--tui-text-02);
+					}
+				}
+
+			}
+		}
+	}
+}
+
+
+
+.spoiler-icon {
+	cursor: pointer;
+}
+
+@media only screen and (max-width: 1225px) {
+	:host {
+		padding: 0;
+		width: 100%;
+
+		.chat {
+			max-width: 100%;
+			border-radius: 0;
+
+			.top-bar {
+				padding: 10px 20px;
+			}
+		}
+	}
+}

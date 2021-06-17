@@ -1,0 +1,25 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
+:host {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 80px;
+	flex-grow: 1;
+
+	padding: 0 10px 0 10px;
+
+	.title {
+		text-align: center;
+	}
+
+	.chat-icon {
+		margin-top: 100px;
+		&::ng-deep {
+			svg {
+				transform: scale(3);
+			}
+		}
+		color: var(--tui-primary)
+	}
+}

@@ -1,0 +1,53 @@
+<div [@listAnimationFast]="true" class="content">
+	<!-- Title -->
+	<tui-svg [@translateY]="true" class="chat-icon" src="tuiIconCommentLarge"></tui-svg>
+
+	<div [@translateY]="true" class="title">
+		<div class="tui-text_h1">
+			Public rooms lobby
+		</div>
+		<div class="tui-text_body-xl subtitle">
+			Look for your favorite room and start chatting
+		</div>
+	</div>
+
+	<!-- Search input -->
+	<form [@translateY]="true" class="search-form" [formGroup]="form">
+		<tui-input icon="tuiIconSearchLarge" class="search-input" formControlName="query" [tuiTextfieldAutocomplete]="false"
+			[tuiTextfieldLabelOutside]="true" spellcheck="false">
+			Search a room
+		</tui-input>
+	</form>
+
+	<!-- Rooms list grid -->
+	<ng-container *ngIf="rooms$ | async as rooms">
+		<div [@translateY]="true" *ngIf="rooms.data.length > 0; else nothing" class="rooms-list">
+			<a class="room-action" href="http://ng-web-apis.github.io/" [routerLink]="'/' + room.name" tuiAction icon="tuiIconCommentLarge"
+				*ngFor="let room of rooms.data">
+				<div class="action-content">
+					<div class="action-title tui-text_body-l">{{room.name}}</div>
+					<div class="action-description">{{room.description}}</div>
+				</div>
+			</a>
+		</div>
+
+		<ng-template #nothing>
+			<div class="tui-text_body-xl subtitle no-rooms">
+				<span>No rooms matched your query :(</span>
+				<a tuiLink [routerLink]="'/' + query.value">Create "{{query.value}}" now?</a>
+			</div>
+		</ng-template>
+	
+		<div class="show-more" *ngIf="rooms.more">
+			<app-divider direction="horizontal"></app-divider>
+			<button id="load-more" tuiButton (click)="fetchMore()">
+				Load more
+			</button>
+			<app-divider direction="horizontal"></app-divider>
+		</div>
+	</ng-container>
+
+
+</div>
+
+<app-scroll-top *ngIf="scroll$ | async"></app-scroll-top>

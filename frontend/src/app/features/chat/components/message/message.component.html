@@ -1,0 +1,66 @@
+<ng-container *ngIf="message">
+	<!-- User avatar -->
+	<tui-avatar *ngIf="showAvatar" [text]="message.username" size="xs" [rounded]="true"></tui-avatar>
+
+	<div class="message" [ngClass]="[type, showAvatar ? 'first' : 'second']" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()">
+		<!-- User username -->
+		<div class="username" *ngIf="showUsername">
+			<b>{{message.username}}</b>
+		</div>
+
+		<!-- Message content -->
+		<div class="message-content">
+			<tui-svg *ngIf="message.spoiler" (click)="showSpoiler(message)" class="spoiler-icon" src="tuiIconEyeClosed"
+				tuiHint="Show content">
+			</tui-svg>
+
+			<!-- Show if spoiler -->
+			<div *ngIf="message.spoiler else standardMessage" [class.tui-skeleton]="message.spoiler">
+				<div class="spoiler-content">
+					<div class="spoiler-title-container">
+						<div class="spoiler-title">Spoiler</div>
+						<tui-svg class="spoiler-icon" src="tuiIconCancel"></tui-svg>
+					</div>
+					<div class="spoilerWarning tui-text_body-s">
+						This message contains a spoiler.
+						<div>
+							Topic:
+							<tui-tag [value]="message.spoilerTopic ? message.spoilerTopic : 'unknown'"></tui-tag>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Show if standard message -->
+			<ng-template #standardMessage>
+				<div class="standard-message">
+					<div [innerHTML]="message.content | markdown | tuiMapper: highlightLinks"></div>
+					<app-preview *ngIf="message.firstLinkPreview" [mode]="preview"
+						[linkPreview]="message.firstLinkPreview"></app-preview>
+				</div>
+			</ng-template>
+			<div class="tui-text_body-xs date">{{message.sentDate | tuiMapper: toTime}}</div>
+			<tui-svg *ngIf="item !== -1" class="pin" src="ionicPin"></tui-svg>
+				
+		</div>
+		<!--menù-->
+		<div class="menu">
+			<tui-hosted-dropdown
+			[content]="dropdown"
+			[canOpen]="true"
+			[(open)]="messageMenuOpen"
+			class = "dropdown"
+			>
+				<button tuiIconButton icon="tuiIconMoreVer" size="xs" appearance="flat" (click)="moreBtnOnClick()" [ngClass]="btnMoreClass" id="svg-menu"></button>
+			</tui-hosted-dropdown>
+			<ng-template #dropdown>
+				<tui-data-list>
+					<button tuiOption id="btn-option" (click)="handlePin()">
+						<tui-svg src="ionicPin" class="iconPin"></tui-svg>
+						<span>{{item === -1 ? 'Pin message' : 'Remove pinned message'}}</span>
+					</button>
+				</tui-data-list>
+			</ng-template>
+		</div>
+
+	</div>
+</ng-container>

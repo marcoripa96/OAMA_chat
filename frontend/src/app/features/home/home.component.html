@@ -1,0 +1,128 @@
+<!-- HEADER -->
+<header class="header-container">
+	<div [@listAnimation]="true" class="header-wrapper" *ngIf="color$ | async as color">
+		<div [@translateY]="true" class="header-headline">
+			<div class="tui-text_h1">Enter a room and start <span class="chatting-word"
+					[ngStyle]="{'color': color}">chatting</span></div>
+			<div class="tui-text_body-xl subtitle">
+				Join thousands of users, start chatting for free in public or private rooms.
+				Look for your favorite rooms and topics and join the conversation!
+			</div>
+		</div>
+		<form [@translateY]="true" class="room-form" [formGroup]="form" (ngSubmit)="submitRoom()">
+			<div class="input-room tui-space_bottom-3">
+				<tui-input (focusedChange)="onFocusChange($event)" formControlName="roomName"
+					[tuiTextfieldLabelOutside]="true">
+					{{string$ | async}}
+				</tui-input>
+				<button tuiButton>
+					Enter
+				</button>
+			</div>
+			<ng-container [ngSwitch]="room$ | async">
+				<tui-notification [@translateY]="{value: true, params: {startY: '20px', timing: '250ms'}}"
+					*ngSwitchCase="false" status="success">
+					The room doesn't exist yet
+				</tui-notification>
+				<tui-notification [@translateY]="{value: true, params: {startY: '20px', timing: '250ms'}}"
+					*ngSwitchCase="true">
+					The room already exists. Do you want to join it?
+				</tui-notification>
+			</ng-container>
+			<app-airplain-animation [@translateY]="true"
+				[bubbleColor]="color"></app-airplain-animation>
+		</form>
+		<div @fadeIn class="header-img" [style.color]="color" [inlineSVG]="'/assets/images/home-header-2.svg'">
+		</div>
+	</div>
+</header>
+
+<!-- MAIN ACTIONS -->
+<section class="actions-container">
+	<div waIntersectionObserver waIntersectionThreshold="0.3" [@listAnimation]="animationTrackers[0]"
+		(waIntersectionObservee)="onIntersection($event, 0)" class="wrapper">
+		<div [@translateY]="animationTrackers[0]" class="tui-text_h1 section-title">
+			Start now!
+		</div>
+		<div [@translateY]="animationTrackers[0]" class="tui-text_body-xl section-subtitle">
+			Stay up to date or join your friends. It's free, join a room or create a new one!
+		</div>
+		<div [@listAnimation]="animationTrackers[0]" class="actions">
+
+			<div [@translateY]="animationTrackers[0]" class="action">
+				<a id="action-changelog" size="l" routerLink="/changelog" tuiIsland [hoverable]="true">
+					<div class="tui-island__content">
+						<h3 class="tui-island__title">Stay up to date</h3>
+						<p class="tui-island__paragraph">
+							Stay up to date with the latest features.
+							Discover what the team is working on, new features releases,
+							changelogs and even submit your requests.
+						</p>
+						<p class="tui-island__paragraph link">
+							<a tuiLink icon="tuiIconArrowUpRight" iconAlign="right">Check me out</a>
+						</p>
+					</div>
+				</a>
+			</div>
+
+			<div [@translateY]="animationTrackers[0]" class="action lobby-action">
+				<a id="action-lobby" size="l" routerLink="/lobby" tuiIsland [hoverable]="true">
+					<div class="tui-island__content">
+						<h3 class="tui-island__title">Explore our lobby</h3>
+						<p class="tui-island__paragraph">
+							Discover your new favorites rooms, stay in touch with news or topics you are most interested
+							in!
+						</p>
+						<p class="tui-island__paragraph link">
+							<a tuiLink icon="tuiIconArrowUpRight" iconAlign="right">Check me out</a>
+						</p>
+					</div>
+				</a>
+			</div>
+
+			<div [@translateY]="animationTrackers[0]" class="action signup-action">
+				<a id="action-signup" size="l" routerLink="/signup" tuiIsland [hoverable]="true">
+					<div class="tui-island__content">
+						<h3 class="tui-island__title">Signup!</h3>
+						<p class="tui-island__paragraph">
+							Signup now to receive all additional features OAMA has to offer, it's free... just do it! :)
+						</p>
+						<p class="tui-island__paragraph link">
+							<a tuiLink icon="tuiIconArrowUpRight" iconAlign="right">Check me out</a>
+						</p>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+<!-- SLIDER ANIMATION -->
+<section class="chat-slider">
+	<app-list-slider></app-list-slider>
+</section>
+
+<!-- FOOTER -->
+<footer>
+	<div waIntersectionObserver waIntersectionThreshold="0.5" (waIntersectionObservee)="onIntersection($event, 1)"
+		class="footer-container" [@listAnimation]="animationTrackers[1]">
+		<tui-svg [@translateY]="animationTrackers[1]" src="tuiIconCommentLarge"></tui-svg>
+		<div [@translateY]="animationTrackers[1]" class="tui-text_h1 tui-space_bottom-6 footer-title">Join the
+			community!</div>
+		<div [@translateY]="animationTrackers[1]" class="tui-text_body-xl subtitle">
+			<span class="quotes">&#8220;</span>
+			One of the best chatting websites, free, easy to use and it constantly bring us new functionalities. Join
+			us!
+		</div>
+		<div [@translateY]="animationTrackers[1]" class="tui-text_body-l subtitle author">
+			&#9135; Author
+		</div>
+		<button [@translateY]="animationTrackers[1]" tuiButton [shape]="'rounded'" iconRight="tuiIconChevronRight"
+			class="tui-space_top-6 tui-space_bottom-10" routerLink="/signup">Signup</button>
+
+		<div class="copyright">
+			@2021 OAMA <a tuiLink routerLink="/terms">Terms</a> <a routerLink="/privacy" tuiLink>Privacy</a>
+		</div>
+	</div>
+</footer>

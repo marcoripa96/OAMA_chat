@@ -1,0 +1,279 @@
+variables:
+  PROJECT_PATH: "$CI_PROJECT_DIR"
+  APP_OUTPUT_PATH: "$CI_PROJECT_DIR/artifacts/app"
+  OUTPUT_PATH: "$CI_PROJECT_DIR/artifacts"
+  MONGO_INITDB_DATABASE: oama
+  MONGO_INITDB_USERNAME: oama
+  MONGO_INITDB_PASSWORD: test-password
+  MONGO_INITDB_ROOT_USERNAME: root
+  MONGO_INITDB_ROOT_PASSWORD: root-test-password
+  CHROME_VERSION: "89.0.4389.128-1"
+
+stages:
+  - prepare
+  - test
+  - lint
+
+# node:alpine images with chromium running as user 1000 in which to run tests
+prepare:node-test:
+  image: docker
+  stage: prepare
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/unizzan/oama/node-test:latest
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cd .gitlab-ci
+    - docker build -t $IMAGE_TAG -f dockerfile-node-test .
+    - docker push $IMAGE_TAG
+  rules:
+    - changes:
+        - .gitlab-ci/dockerfile-node-test
+      when: on_success
+    - if: $FORCE_PREPARE
+      when: on_success
+    - if: $FORCE_PREPARE_NODE_TEST
+      when: on_success
+    - if: $CI_COMMIT_MESSAGE =~ /\[force(?:[ _-][^\s]+)*[ _-]prepares?(?:[ _-][^\s]+)*\]/i
+      when: on_success
+    - if: $SKIP_PREPARE
+      when: never
+    - if: $SKIP_PREPARE_NODE_TEST
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip(?:[ _-][^\s]+)*[ _-]prepares?(?:[ _-][^\s]+)*\]/i
+      when: never
+
+# mongo image configurable via environment variables
+prepare:mongo-test:
+  image: docker
+  stage: prepare
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/unizzan/oama/mongo-test:latest
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cd .gitlab-ci
+    - docker build -t $IMAGE_TAG -f dockerfile-mongo-test .
+    - docker push $IMAGE_TAG
+  rules:
+    - changes:
+        - .gitlab-ci/dockerfile-mongo-test
+        - .gitlab-ci/mongo-init.sh
+      when: on_success
+    - if: $FORCE_PREPARE
+      when: on_success
+    - if: $FORCE_PREPARE_MONGO_TEST
+      when: on_success
+    - if: $CI_COMMIT_MESSAGE =~ /\[force(?:[ _-][^\s]+)*[ _-]prepares?(?:[ _-][^\s]+)*\]/i
+      when: on_success
+    - if: $SKIP_PREPARE
+      when: never
+    - if: $SKIP_PREPARE_MONGO_TEST
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip(?:[ _-][^\s]+)*[ _-]prepares?(?:[ _-][^\s]+)*\]/i
+      when: never
+
+# image containing node, java and chrome in which to run e2e tests
+prepare:e2e-test:
+  image: docker
+  stage: prepare
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY/unizzan/oama/e2e-test:latest
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cd .gitlab-ci
+    - docker build -t $IMAGE_TAG -f dockerfile-e2e-test .
+    - docker push $IMAGE_TAG
+  rules:
+    - changes:
+        - .gitlab-ci/dockerfile-e2e-test
+      when: on_success
+    - if: $FORCE_PREPARE
+      when: on_success
+    - if: $FORCE_PREPARE_E2E_TEST
+      when: on_success
+    - if: $CI_COMMIT_MESSAGE =~ /\[force(?:[ _-][^\s]+)*[ _-]prepares?(?:[ _-][^\s]+)*\]/i
+      when: on_success
+    - if: $SKIP_PREPARE
+      when: never
+    - if: $SKIP_PREPARE_E2E_TEST
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip(?:[ _-][^\s]+)*[ _-]prepares?(?:[ _-][^\s]+)*\]/i
+      when: never
+
+test:frontend:
+  image: $CI_REGISTRY/unizzan/oama/node-test:latest
+  stage: test
+  script:
+    - cp frontend/src/environments/environment.test.ts frontend/src/environments/environment.ts
+    - cd frontend
+    - npm install --force
+    - npm run test-ci
+  cache:
+    key: "frontend-$CI_COMMIT_REF_SLUG"
+    paths:
+      - frontend/node_modules
+  rules:
+    - changes:
+        - frontend/**/*
+      when: on_success
+    - if: $FORCE_TESTS
+      when: on_success
+    - if: $FORCE_TEST_FRONTEND
+      when: on_success
+    - if: $CI_COMMIT_MESSAGE =~ /\[force(?:[ _-][^\s]+)*[ _-]tests?(?:[ _-][^\s]+)*\]/i
+      when: on_success
+    - if: $SKIP_TESTS
+      when: never
+    - if: $SKIP_TEST_FRONTEND
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip(?:[ _-][^\s]+)*[ _-]tests?(?:[ _-][^\s]+)*\]/i
+      when: never
+
+# uses a mongo instance as in the services
+test:backend:
+  image: node:15-alpine
+  services:
+    - name: $CI_REGISTRY/unizzan/oama/mongo-test:latest
+      alias: mongo-test
+  stage: test
+  script:
+    - cp backend/env-test.txt backend/.env
+    - cd backend
+    - npm install
+    - npm run test-ci
+  cache:
+    key: "backend-$CI_COMMIT_REF_SLUG"
+    paths:
+      - backend/node_modules
+  rules:
+    - changes:
+        - backend/**/*
+      when: on_success
+    - if: $FORCE_TESTS
+      when: on_success
+    - if: $FORCE_TEST_BACKEND
+      when: on_success
+    - if: $CI_COMMIT_MESSAGE =~ /\[force(?:[ _-][^\s]+)*[ _-]tests?(?:[ _-][^\s]+)*\]/i
+      when: on_success
+    - if: $SKIP_TESTS
+      when: never
+    - if: $SKIP_TEST_BACKEND
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip(?:[ _-][^\s]+)*[ _-]tests?(?:[ _-][^\s]+)*\]/i
+      when: never
+
+# uses mongo as defined in the services and starts a backend from the script section
+test:e2e:
+  image: $CI_REGISTRY/unizzan/oama/e2e-test:latest
+  stage: test
+  services:
+    - name: $CI_REGISTRY/unizzan/oama/mongo-test:latest
+      alias: mongo-test
+  script:
+    - cp backend/env-test.txt backend/.env
+    - cd backend
+    - npm install
+    - node misc/createRooms.js -n 100 --test
+    # starting backend
+    - npm run start &
+    - cd ..
+    - cp frontend/src/environments/environment.test.ts frontend/src/environments/environment.ts
+    - cd frontend
+    - npm install --force
+    - npx webdriver-manager update --versions.chrome=$CHROME_VERSION
+    - npm run e2e-ci
+  cache:
+    key: "e2e-$CI_COMMIT_REF_SLUG"
+    paths:
+      - frontend/node_modules
+      - backend/node_modules
+  rules:
+    - changes:
+        - frontend/**/*
+        - backend/**/*
+      when: on_success
+    - if: $FORCE_TESTS
+      when: on_success
+    - if: $FORCE_TEST_E2E
+      when: on_success
+    - if: $CI_COMMIT_MESSAGE =~ /\[force(?:[ _-][^\s]+)*[ _-]tests?(?:[ _-][^\s]+)*\]/i
+      when: on_success
+    - if: $SKIP_TESTS
+      when: never
+    - if: $SKIP_TEST_E2E
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip(?:[ _-][^\s]+)*[ _-]tests?(?:[ _-][^\s]+)*\]/i
+      when: never
+
+# allow_failure trows a warning in case of failure instead of marking the entire
+# pipeline as failed
+lint:frontend:
+  image: node:15-alpine
+  stage: lint
+  script:
+    - cp frontend/src/environments/environment.test.ts frontend/src/environments/environment.ts
+    - cd frontend
+    - npm install
+    - npm run lint-ci
+  cache:
+    key: "frontend-$CI_COMMIT_REF_SLUG"
+    paths:
+      - frontend/node_modules
+  rules:
+    - changes:
+        - frontend/**/*
+      when: on_success
+    - if: $FORCE_LINT
+      when: on_success
+    - if: $FORCE_LINT_FRONTEND
+      when: on_success
+    - if: $CI_COMMIT_MESSAGE =~ /\[force(?:[ _-][^\s]+)*[ _-]lints?(?:[ _-][^\s]+)*\]/i
+      when: on_success
+    - if: $SKIP_LINT
+      when: never
+    - if: $SKIP_LINT_FRONTEND
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip(?:[ _-][^\s]+)*[ _-]lints?(?:[ _-][^\s]+)*\]/i
+      when: never
+
+lint:backend:
+  image: node:15-alpine
+  stage: lint
+  script:
+    - cp backend/env-test.txt backend/.env
+    - cd backend
+    - npm install
+    - npm run lint-ci
+  cache:
+    key: "backend-$CI_COMMIT_REF_SLUG"
+    paths:
+      - backend/node_modules
+  rules:
+    - changes:
+        - backend/**/*
+      when: on_success
+    - if: $FORCE_LINT
+      when: on_success
+    - if: $FORCE_LINT_BACKEND
+      when: on_success
+    - if: $CI_COMMIT_MESSAGE =~ /\[force(?:[ _-][^\s]+)*[ _-]lints?(?:[ _-][^\s]+)*\]/i
+      when: on_success
+    - if: $SKIP_LINT
+      when: never
+    - if: $SKIP_LINT_BACKEND
+      when: never
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip(?:[ _-][^\s]+)*[ _-]lints?(?:[ _-][^\s]+)*\]/i
+      when: never
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'

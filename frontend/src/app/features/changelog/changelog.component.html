@@ -1,0 +1,37 @@
+<aside class="sidebar">
+	<div class="tui-text_h6">
+		Releases
+	</div>
+	<ul class="tui-list tui-list_small release">
+		<li class="tui-list__item" *ngFor="let release of releases">
+			<a tuiLink routerLink='.' [fragment]="release.version">v{{release.version}} - {{release.releaseDate}}</a>
+		</li>
+	</ul>
+</aside>
+
+<section [@listAnimation]="true">
+	<div [@translateY]="{value: true, params: {timing: '0.5s'}}" class="tui-text_h3">Changelog</div>
+	<app-divider [@translateY]="{value: true, params: {timing: '0.5s'}}" direction="horizontal"></app-divider>
+	<div [@translateY]="{value: true, params: {timing: '0.5s'}}" id="release.version" class="release" *ngFor="let release of releases">
+		<div class="version">
+			<span class="tui-text_h5 version-number">{{release.version}}</span> - <span
+				class="tui-text_h5 release-date">{{release.releaseDate}}</span>
+			<a tuiIconButton size="xs" appearance="flat" routerLink='.' [fragment]="release.version"><tui-svg src="tuiIconLink" class="icon-link"></tui-svg></a>
+		</div>
+		<app-divider direction="horizontal"></app-divider>
+		<div class="section tui-space_top-4" *ngFor="let section of release.sections">
+			<div class="section-title tui-text_h5">{{section.title}}</div>
+			<app-divider direction="horizontal"></app-divider>
+			<ul class="tui-list">
+				<li class="tui-list__item" *ngFor="let mergeRequest of section.mergeRequests">
+					<span class="mr-title">{{mergeRequest.title}}</span>
+					{{mergeRequest.description}}
+					- (<a tuiLink target="_blank" [href]="mergeRequest.issueLink">{{mergeRequest.issueID}}</a>) (<a
+						class="mr-link"
+						tuiLink target="_blank"
+						[href]="mergeRequest.mergeRequestLink">{{mergeRequest.mergeRequestID}}</a>)
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,77 @@
+<!-- Header -->
+<div class="search-form" [formGroup]="searchForm">
+	<div class="header">
+		<tui-input formControlName="search" tuiTextfieldSize="m" tuiTextfieldLabelOutside="true"
+			tuiTextfieldAutocomplete='off' spellcheck="false" icon="tuiIconSearch">
+			Search messages
+		</tui-input>
+		<tui-svg id="close-arrow" (click)="closeSidebar()" src="tuiIconArrowRightLarge"></tui-svg>
+	</div>
+	<div tuiGroup class="group" [rounded]="false" [collapsed]="true">
+		<tui-radio-block id="all-radio" [hideRadio]="true" contentAlign="right" formControlName="filter" item="all" size="s">
+			All
+		</tui-radio-block>
+		<tui-radio-block id="links-radio" [hideRadio]="true" contentAlign="right" formControlName="filter" item="link" size="s">
+			<tui-svg class="tab-icon" src="tuiIconLink"></tui-svg> Links
+		</tui-radio-block>
+		<tui-radio-block id="spoilers-radio" [hideRadio]="true" contentAlign="right" formControlName="filter" item="spoiler" size="s">
+			<tui-svg class="tab-icon" src="tuiIconEyeClosed"></tui-svg> Spoilers
+		</tui-radio-block>
+	</div>
+</div>
+
+<div class="content">
+	<ng-container *ngIf="messages$ | async as messages">
+		<ng-container [ngSwitch]="messages">
+
+			<div *ngSwitchCase="'EMPTY'" class="default-message">
+				<div class="tui-text_body-m">
+					Search for messages in {{roomName}}
+				</div>
+				
+				<tui-svg src="tuiIconSearchLarge"></tui-svg>
+			</div>
+			<tui-loader *ngSwitchDefault [showLoader]="messages === 'LOADING'">
+				<ng-container *ngIf="messages !== 'LOADING'">
+					<div @listAnimation *ngIf="messages.length > 0">
+						<div (click)="onMessageClick(message)" class="message" *ngFor="let message of messages">
+							<div class="username tui-space_bottom-2">
+								<tui-avatar class="tui-space_right-2" [text]="message.username" size="xs"
+									[rounded]="true">
+								</tui-avatar>
+								<span class="tui-text_body-s"><b>{{message.username}}</b></span>
+							</div>
+							<div *ngIf="!message.spoiler else spoiler" class="message-content">
+								<div [innerHtml]="message.content | markdown: 'partial'" class="message-text tui-space_bottom-2"></div>
+								<div class="link-preview" *ngIf="message.firstLinkPreview">
+									<img class="tui-space_right-2" [src]="message.firstLinkPreview.image">
+									<div class="link-info">
+										<div class="tui-text_body-s"><b>{{message.firstLinkPreview.title}}</b></div>
+										<div class="tui-text_body-xs link-description" ellipsis>{{message.firstLinkPreview.description}}</div>
+										<a tuiLink target="_blank" [href]="message.firstLinkPreview.url">{{message.firstLinkPreview.url}}</a>
+									</div>
+								</div>
+							</div>
+							<ng-template #spoiler>
+								<div class="spoiler-message">
+									<div class="spoiler-title">
+										<tui-svg src="tuiIconCancel" class="tui-space_right-1"></tui-svg>
+										<span>Spoiler</span>
+									</div>
+									<div class="skeleton"></div>
+								</div>
+							</ng-template>
+						</div>
+					</div>
+
+					<ng-container *ngIf="messages.length === 0">
+						<div class="no-messages-found tui-text_body-m">
+							No messages found...
+						</div>
+					</ng-container>
+				</ng-container>
+			</tui-loader>
+
+		</ng-container>
+	</ng-container>
+</div>

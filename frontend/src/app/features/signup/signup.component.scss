@@ -1,0 +1,88 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
+:host {
+    // full screen room page
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	app-blob {
+		position: absolute;
+		z-index: -1;
+	}
+
+	.signup-panel {
+        margin: auto;
+		width: 450px;
+		box-sizing: border-box;
+		transition: all 150ms ease-out;
+		background-color: var(--oama-base-01);
+
+		@include shadow(2);
+
+		&:before {
+			border: none;
+		}
+
+		.title {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+
+			.private-public {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
+			#persistent-container {
+				margin-top: 12px;
+				display: flex;
+
+				img {
+					width: 30px;
+					margin-top: 0px;
+				}
+			}
+
+			#persistent-label {
+				margin-left: 7px;
+				margin-right: auto;
+				color: gray;
+			}
+
+			tui-input-password {
+				flex-grow: 1;
+			}
+
+			.signup-button {
+				align-self: center;
+				margin-top: 15px;
+			}
+		}
+	}
+
+	.success {
+		color: var(--tui-success-fill);
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	:host {
+		width: 100%;
+		.create-panel {
+			width: 100%;
+		}
+	}
+}

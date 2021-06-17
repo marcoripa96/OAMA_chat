@@ -1,0 +1,25 @@
+@import "~@taiga-ui/core/styles/taiga-ui-local";
+
+:host {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+
+	&.opened {
+		width: 100%;
+	}
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 350px;
+	height: 100%;
+	margin-left: auto;
+	
+	box-sizing: border-box;
+
+	background-color: var(--oama-base-02);
+	@include shadow(1);
+}

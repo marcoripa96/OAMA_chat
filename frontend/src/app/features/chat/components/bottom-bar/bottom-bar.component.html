@@ -1,0 +1,45 @@
+<ng-container *ngIf="{
+	firstLinkPreview: (firstLinkPreview$ | async)?.data
+} as data">
+	<div class="bottom-bar">
+		<div class="preview-container">
+			<div class="space-before-preview"></div>
+			<app-preview [mode]="'dynamic'" [linkPreview]="data.firstLinkPreview" [resetLinkPreview]="resetLinkPreview"
+				[loading]='pendingPreviewRequest' [class]="{'open': pendingPreviewRequest || data.firstLinkPreview}"
+				(resetPreview)="resetPreview()"></app-preview>
+			<div class="space-after-preview"></div>
+		</div>
+		<form [formGroup]="messageForm">
+			<div class="spoiler-topic-container">
+				<tui-expand [expanded]="hasSpoilerTopic">
+					<ng-template tuiExpandContent>
+						<tui-input tuiAutoFocus tuiTextfieldSize="s" class="spoiler-topic" formControlName="spoilerTopic"
+							[tuiTextfieldMaxLength]="32" (keyup.enter)="focusNewMessage()">
+							Type the topic of the spoiler
+						</tui-input>
+					</ng-template>
+				</tui-expand>
+			</div>
+			<div class='new-message-container'>
+				<div class="message-options">
+					<div *ngIf="spoiler" class="spoiler-topic-icon" [ngClass]="{'has-topic': hasSpoilerTopic}"
+						(click)="toggleSpoilerTopic()">
+						<span><b>{{ hasSpoilerTopic ? '-' : '+' }}</b></span>
+					</div>
+					<tui-marker-icon class="spoiler-icon tui-space_right-2" [mode]="spoiler ? 'primary' : 'white'"
+						(click)="toggleSpoiler()" [tuiHint]="spoiler ? 'Unmark spoiler' : 'Mark as spoiler'" size="xs"
+						src="tuiIconHideLarge">
+					</tui-marker-icon>
+				</div>
+				<tui-text-area class="new-message" formControlName="newMessage" tuiTextfieldAutocomplete='off'
+					tuiTextfieldCleaner='true' [tuiTextfieldLabelOutside]="false" [expandable]="true" [rows]="6"
+					spellcheck="false" (keydown.enter)="isValidMessage() && sendMessage(data.firstLinkPreview); false">
+					Type a new message here
+				</tui-text-area>
+				<button tuiIconButton type="button" class="btn-send" icon="tuiIconPlayLarge"
+					[disabled]="!isValidMessage()" (click)='sendMessage(data.firstLinkPreview)'>
+				</button>
+			</div>
+		</form>
+	</div>
+</ng-container>

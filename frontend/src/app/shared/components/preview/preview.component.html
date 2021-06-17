@@ -1,0 +1,19 @@
+<div class="preview-container" [@enterLeaveAnimationParent]="mode === 'dynamic' && loading" *ngIf="loading || linkPreview">
+	<div [@enterLeaveAnimationLoading]="loading" *ngIf="loading; else content" class="loading-wrapper">
+		<tui-loader [showLoader]="loading"></tui-loader>
+		<span class="loading-text">Loading link preview...</span>
+	</div>
+	<ng-template #content>
+		<div *ngIf="linkPreview" [@enterLeaveAnimationChild]="mode === 'dynamic' && !loading"
+			class="preview-wrapper" [class]="mode" (click)="openLink()">
+			<div class="img-preview">
+				<img [src]="linkPreview.image">
+			</div>
+			<div class="text-preview">
+				<span class="short-title-preview"><b>{{linkPreview.title | tuiMapper: shortTitle}}</b></span>
+				<span class="long-title-preview">{{linkPreview.title | tuiMapper: longTitle}}</span>
+				<span class="description-preview">{{linkPreview.description | tuiMapper: shortDescription}}</span>
+			</div>
+		</div>
+	</ng-template>
+</div>

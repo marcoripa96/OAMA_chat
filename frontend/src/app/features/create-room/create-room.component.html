@@ -1,0 +1,9 @@
+<tui-svg class="chat-icon" [@translateY]="true" src="tuiIconCommentLarge"></tui-svg>
+
+
+<div [@translateY]="true" class="title tui-text_h3">
+	Woops, {{roomName | tuiMapper: toUpper}} doesn't exist yet!
+</div>
+
+
+<app-create-room-form [@translateY]="true" (create)="createRoom($event)" [formConfig]="formConfig"></app-create-room-form>

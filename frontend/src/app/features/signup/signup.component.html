@@ -1,0 +1,32 @@
+<ng-container>
+	<ng-container>
+		<tui-island class="signup-panel">
+			<div class="title tui-island__title">
+				<span>Sign Up</span>
+			</div>
+			<form [formGroup]="signupForm" (ngSubmit)="submitForm()">
+				<tui-input id="email-input" class="tui-space_bottom-3" formControlName="email">
+					Email address
+				</tui-input>
+				<tui-input id="name-input" class="tui-space_bottom-3" formControlName="name">
+					Name and Surname
+				</tui-input>
+				<tui-input-password id="password-input" class="tui-space_bottom-3" formControlName="password">
+					Password
+				</tui-input-password>
+				<tui-input-password id="password-confirm-input" class="tui-space_bottom-3"
+					formControlName="passwordConfirm">
+					Confirm Password
+				</tui-input-password>
+
+				<tui-notification id="passwordHint" *ngIf="signupForm.invalid" [hasIcon]="true">
+					Password has to be between 8 and 64 characters and has to contain one lowercase character, one uppercase, one number and one special character.
+				</tui-notification>
+
+				<button id="submit-signup" #submitButton class="signup-button" [showLoader]="loading$ | async" tuiButton appearance="secondary">
+					Sign Up
+				</button>
+			</form>
+		</tui-island>
+	</ng-container>
+</ng-container>

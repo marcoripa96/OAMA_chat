@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+	background: var(--tui-base-01);
+	font: var(--tui-font-text-m);
+}
+
+:root {
+	--oama-base-01: #fff;
+	--oama-base-02: #ededed;
+	--oama-base-03: #d7d7d7;
+	--oama-message-sent: var(--tui-base-01);
+	--oama-message-sent-highlight: var(--tui-primary-active);
+	--oama-message-received: var(--tui-base-04);
+	--oama-message-received-highlight: var(--tui-base-05);
+	--oama-avatar: var(--tui-secondary-active);
+	--oama-active-users-btn: var(--tui-secondary-hover);
+}

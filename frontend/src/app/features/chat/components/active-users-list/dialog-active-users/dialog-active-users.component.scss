@@ -1,0 +1,116 @@
+:host {
+	display: block;
+	height: 500px;
+	// background-color: var(--oama-base-01);
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	tui-scrollbar {
+		height: 100%;
+	}
+}
+
+.users-list {
+	margin-top: 20px;
+	flex-direction: column;
+	overflow: auto;
+
+	.user {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-bottom: 10px;
+	}
+
+	.avatar {
+		width: 32px;
+	}
+	.tui-table {
+		max-width: 98%;
+	}
+
+	.table-header {
+		position: sticky;
+		top: 0;
+		background: var(--tui-base-01);
+		z-index: 10;
+		color: var(--tui-primary-hover);
+	}
+
+	.tui-table__td {
+		vertical-align: middle;
+		padding: 0px 16px;
+	}
+
+	.username {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		.user-me {
+			margin-left: 10px;
+			color: var(--tui-text-02);
+		}
+	}
+
+	.actions {
+		text-align: right;
+
+		.icon-kick-btn {
+			color: var(--tui-error-fill);
+
+			&:hover {
+				color: var(--tui-error-fill);
+			}
+		}
+
+		tui-svg {
+			cursor: pointer;
+			color: var(--tui-base-04);
+			transition: 250ms ease-out;
+
+			&:hover {
+				color: var(--tui-support-05);
+			}
+		}
+	}
+}
+
+.kick-button {
+	&::ng-deep {
+		.content{
+			color: var(--tui-error-fill);
+			font: var(--tui-font-text-xs);
+		}
+		tui-wrapper {
+			background: var(--tui-error-bg);
+
+			&:hover {
+				background: var(--tui-error-bg-hover);
+			}
+		}
+	}
+	
+}
+
+.squared-btn {
+	&::ng-deep {
+		tui-wrapper {
+			border-radius: 0px;
+		}
+	}
+
+}
+
+.btn-list {
+	display: flex;
+	flex-direction: column;
+}
+
+.icon-ban {
+	transform: scale(0.7);
+}

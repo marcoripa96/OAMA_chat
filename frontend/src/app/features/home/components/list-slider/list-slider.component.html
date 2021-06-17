@@ -1,0 +1,17 @@
+<div #container class="container">
+	<div *ngFor="let message of messages"
+		[ngStyle]="{'transform': 'translateX(' + message.xStartPosition + ')', 'top': message.yStartPosition}"
+		[@translate]="{value: message.toggleAnimation, params: {timeTranslate: message.timeTranslate} }"
+		(@translate.done)="animationDone(message)"
+		class="message">
+		<div [ngStyle]="{'animation': 'upDown ' + message.timeUpDown + ' alternate infinite ease-in-out'}" 
+			class="message-content">
+			<div class="username">
+				{{message.username}}
+			</div>
+			<div class="body">
+				{{message.content}}
+			</div>
+		</div>
+	</div>
+</div>

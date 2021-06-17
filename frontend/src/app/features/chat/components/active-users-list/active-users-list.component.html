@@ -1,0 +1,11 @@
+<section class="header">
+	<div class="users-avatars">
+		<tui-avatar @enterAnimation *ngFor="let user of users | tuiMapper: getTop" size="xs" rounded="true" [text]="user"></tui-avatar>
+	</div>
+	<button class="btn-more" *ngIf="users | tuiMapper: getRemaining as remainingLenght; else standard" tuiButton size="xs" appearance="secondary"
+		(click)="openDialog()">+{{remainingLenght > 0 ? remainingLenght : ''}} active users</button>
+	<ng-template #standard>
+		<button class="btn-more" tuiButton size="xs" appearance="secondary"
+			(click)="openDialog()">active users</button>
+	</ng-template>
+</section>

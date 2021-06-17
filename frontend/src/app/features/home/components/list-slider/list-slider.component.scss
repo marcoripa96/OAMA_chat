@@ -1,0 +1,55 @@
+@import "~@taiga-ui/core/styles/taiga-ui-local";
+
+.container {
+	position: relative;
+	height: 400px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.message {
+	position: absolute;
+	width: 160px;
+	left: 0;
+	@include shadow(1);
+
+	.message-content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		padding: 10px;
+		border-radius: 12px;
+		@include shadow(1);
+		background-color: var(--tui-base-01);
+
+		.body {
+			color: var(--tui-text-02);
+		}
+
+		&:before {
+			content: "";
+			width: 0px;
+			height: 0px;
+			position: absolute;
+			border-left: 8px solid var(--tui-base-01);
+			border-right: 8px solid transparent;
+			border-top: 8px solid var(--tui-base-01);
+			border-bottom: 8px solid transparent;
+			left: 10px;
+			bottom: -6px;
+		  }
+
+	}
+}
+
+@keyframes upDown {
+	to {
+		transform: translatey(100px);
+	}
+}
+@keyframes translate {
+	to {
+		transform: translatex(1000%);
+	}
+}

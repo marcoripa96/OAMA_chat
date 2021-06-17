@@ -1,0 +1,8 @@
+<ng-container *ngIf="status$ | async as status">
+	<!-- Show content if sidebar gets opened -->
+	<div *ngIf="status.open" @animateSidebar class="container">
+		<!-- Sidebar content -->
+		<ng-container *ngTemplateOutlet="status.content"></ng-container>
+	</div>
+</ng-container>
+

@@ -1,0 +1,42 @@
+<div class="container" [ngClass]="(scroll$ | async) > 0 ? 'scrolled' : ''">
+	<a class="logo" routerLink="/">
+		<tui-svg src="tuiIconCommentLarge"></tui-svg>
+		<div class="logo-title">AMA</div>
+	</a>
+
+	<a routerLink="/lobby" class="browse-btn" tuiButton size="s" appearance="flat">
+		Browse rooms
+	</a>
+	<app-divider></app-divider>
+	<tui-hosted-dropdown tuiDropdownAlign="left" [content]="dropdown" [(open)]="openThemeDropdown">
+		<button tuiIconButton icon="tuiIconHiliteLarge" size="s" class="btn-theme" appearance="flat"></button>
+	</tui-hosted-dropdown>
+
+	<ng-template #dropdown>
+		<div class="form" [formGroup]="themeForm">
+			<tui-radio-labeled id="default-theme-radio" class="tui-space_bottom-3" formControlName="theme"
+							   item="default">
+				<div>Default</div>
+				<div class="description">Default theme, white and blue</div>
+			</tui-radio-labeled>
+			<tui-radio-labeled id="dark-theme-radio" class="tui-space_bottom-3" formControlName="theme"
+							   item="dark">
+				<div>Dark</div>
+				<div class="description">When there is no sun outside</div>
+			</tui-radio-labeled>
+			<tui-radio-labeled id="adaptive-theme-radio" formControlName="theme"
+							   item="adaptive">
+				<div>Adaptive</div>
+				<div class="description">It turns dark in the evening</div>
+			</tui-radio-labeled>
+		</div>
+	</ng-template>
+
+
+	<a routerLink="/login" class="login-btn" tuiButton size="s" appearance="secondary">
+		Login
+	</a>
+	<a routerLink="/signup" class="signup-btn" tuiButton size="s">
+		Signup
+	</a>
+</div>

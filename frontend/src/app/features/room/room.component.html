@@ -1,0 +1,11 @@
+
+<ng-container *ngIf="roomConfig$ | async as roomConfig">
+	<ng-container [ngSwitch]="roomConfig.visibility">
+		<app-create-room *ngSwitchCase="0" [roomName]="roomConfig.name"></app-create-room>
+		<!-- Username component *ngSwitchCase="'username'" -->
+		<app-username *ngSwitchCase="1" [roomConfig]="roomConfig"></app-username>
+		<!-- Chat component *ngSwitchCase="'chat'" -->
+		<app-chat *ngSwitchCase="2" [roomConfig]="roomConfig"></app-chat>
+	</ng-container>
+</ng-container>
+
